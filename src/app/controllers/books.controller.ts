@@ -56,12 +56,12 @@ booksRoutes.get('/:bookId', async (req: Request, res: Response) => {
 
     res.status(201).json({
         success: true,
-        message: "Book Create successfully",
+        message: "Book retrieved successfully",
         data: data
     })
 })
 
-
+//  book update by id
 booksRoutes.put('/:bookId', async (req: Request, res: Response) => {
     const id= req.params.bookId;
     const body = req.body;
@@ -69,7 +69,18 @@ booksRoutes.put('/:bookId', async (req: Request, res: Response) => {
 
     res.status(201).json({
         success: true,
-        message: "Book Create successfully",
+        message: "Book updated successfully",
+        data: data
+    })
+})
+//  book delete by id
+booksRoutes.delete('/:bookId', async (req: Request, res: Response) => {
+    const id= req.params.bookId;
+    const data = await Book.findByIdAndDelete(id)
+
+    res.status(201).json({
+        success: true,
+        message: "Book deleted successfully",
         data: data
     })
 })
