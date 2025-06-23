@@ -2,7 +2,7 @@ import { Server } from "http"
 import 'dotenv/config'
 import mongoose from "mongoose";
 import app from "./app"
-const port = 3000
+const port = process.env.PORT || 5000
 
 
 
