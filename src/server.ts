@@ -8,6 +8,7 @@ const port = process.env.PORT || 5000
 
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@cluster0.dgvjh.mongodb.net/libraryManagementDB?retryWrites=true&w=majority&appName=Cluster0`
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let server: Server;
 
 async function main() {
