@@ -24,7 +24,7 @@ borrowRoutes.post("/", async (req: Request, res: Response) => {
     const bookGet = await Book.findById(book);
 
     if (!bookGet) {
-         res.status(404).json({
+        res.status(404).json({
             success: false,
             message: "Book not found"
         });
@@ -33,7 +33,7 @@ borrowRoutes.post("/", async (req: Request, res: Response) => {
 
 
     if (bookGet.copies < quantity) {
-         res.status(404).json({
+        res.status(404).json({
             success: false,
             message: "Not enough copies available"
         });
@@ -42,7 +42,7 @@ borrowRoutes.post("/", async (req: Request, res: Response) => {
 
     bookGet.copies -= quantity
 
-    if(bookGet.copies === 0){
+    if (bookGet.copies === 0) {
 
         bookGet.available = false
     }
@@ -61,5 +61,48 @@ borrowRoutes.post("/", async (req: Request, res: Response) => {
         message: "Book borrowed successfully",
         data: data
     })
-}) 
+})
+
+
+
+borrowRoutes.get("/", async (req: Request, res: Response) => {
+
+    const summary = await Borrow.aggregate([
+        {
+            $group: {
+                _id: "$book",
+                totalQuantity: { $sum: "$quantity" }
+            }
+        },
+        {
+            $lookup: {
+                from: "books",
+                localField: "_id",
+                foreignField: "_id",
+                as: "bookDetails"
+            }
+        },
+        {
+            $unwind: "$bookDetails"
+        },
+        {
+            $project: {
+                _id: 0,
+                totalQuantity: 1,
+                book: {
+                    title: "$bookDetails.title",
+                    isbn: "$bookDetails.isbn"
+                }
+            }
+        }
+    ]);
+
+    res.status(200).json({
+        success: true,
+        message: "Borrowed books summary retrieved successfully",
+        data: summary
+    });
+
+
+})
 
