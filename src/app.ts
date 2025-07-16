@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Application, NextFunction, Request, Response } from "express"
 import { booksRoutes } from "./app/controllers/books.controller"
 import { borrowRoutes } from "./app/controllers/borrow.controller"
 import { ApiError } from "./app/errors/Api.error"
+import cors from "cors"
+
+
+
 const app: Application = express()
+app.use(cors())
 app.use(express.json())
 
 app.use("/api/books", booksRoutes)
@@ -20,6 +26,7 @@ app.use((req:Request, res:Response, next:NextFunction) => {
   next() 
 }); 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err:any, req:Request, res:Response, next:NextFunction) => {
   let statusCode = 500;
   let message = 'Something went wrong!';

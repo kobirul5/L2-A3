@@ -31,6 +31,7 @@ exports.booksRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fu
 exports.booksRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { filter, sortBy = 'createdAt', sort = 'asc', limit = '10', } = req.query;
     // Build query object
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query = {};
     if (filter) {
         query.genre = filter;

@@ -29,6 +29,7 @@ booksRoutes.get('/', async (req: Request, res: Response) => {
     } = req.query;
 
     // Build query object
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};
     if (filter) {
         query.genre = filter;
