@@ -71,7 +71,22 @@ exports.booksRoutes.put('/:bookId', (req, res) => __awaiter(void 0, void 0, void
 //  book delete by id
 exports.booksRoutes.delete('/:bookId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.bookId;
-    yield book_model_1.Book.findByIdAndDelete(id, { lean: true });
+    const exitingBook = yield book_model_1.Book.findById(id);
+    if (!exitingBook) {
+        res.status(404).json({
+            success: false,
+            message: "Book not found"
+        });
+        return;
+    }
+    const data = yield book_model_1.Book.findByIdAndDelete(id, { lean: true });
+    if (!data) {
+        res.status(404).json({
+            success: false,
+            message: "Failed to delete book"
+        });
+        return;
+    }
     res.status(201).json({
         success: true,
         message: "Book deleted successfully",
