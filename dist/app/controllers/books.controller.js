@@ -62,6 +62,17 @@ exports.booksRoutes.put('/:bookId', (req, res) => __awaiter(void 0, void 0, void
     const id = req.params.bookId;
     const body = req.body;
     const data = yield book_model_1.Book.findByIdAndUpdate(id, body, { new: true });
+    if (!data) {
+        res.status(404).json({
+            success: false,
+            message: "Failed to update book"
+        });
+        return;
+    }
+    if (data.copies > 0) {
+        data.available = true;
+        yield data.save();
+    }
     res.status(201).json({
         success: true,
         message: "Book updated successfully",

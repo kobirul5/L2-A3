@@ -65,8 +65,21 @@ booksRoutes.get('/:bookId', async (req: Request, res: Response) => {
 //  book update by id
 booksRoutes.put('/:bookId', async (req: Request, res: Response) => {
     const id= req.params.bookId;
-    const body = req.body;
+    const body = req.body;  
     const data = await Book.findByIdAndUpdate(id, body, {new: true})
+
+    if(!data) {
+        res.status(404).json({
+            success: false,
+            message: "Failed to update book"
+        })
+        return;
+    }
+
+    if(data.copies > 0) {
+        data.available = true
+        await data.save();
+    }
 
     res.status(201).json({
         success: true,

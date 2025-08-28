@@ -19,6 +19,7 @@ const borrow_model_1 = require("../models/borrow.model");
 exports.borrowRoutes = express_1.default.Router();
 exports.borrowRoutes.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { book, quantity, dueDate } = req.body;
+    console.log(req.body);
     if (!book || !quantity || !dueDate) {
         res.status(400).json({
             success: false,

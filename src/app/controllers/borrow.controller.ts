@@ -6,6 +6,7 @@ export const borrowRoutes = express.Router()
 
 borrowRoutes.post("/", async (req: Request, res: Response) => {
     const { book, quantity, dueDate } = req.body;
+    console.log(req.body)
     if (!book || !quantity || !dueDate) {
         res.status(400).json({
             success: false,
